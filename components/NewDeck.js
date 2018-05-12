@@ -1,17 +1,33 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet  } from 'react-native'
-import { FontAwesome, Entypo } from '@expo/vector-icons'
 import { white, purple } from '../utils/colors'
 
 export default class NewDeck extends Component {
+  state = {
+    deckName: ''
+  }
+
+  handleInput = (text) => {
+    this.setState({deckName:text})
+  }
+
   render() {
     return (
       <View>
         <Text style={styles.question}>
           What is the title of your new deck?</Text>
-        <TextInput style={styles.input} placeholder={'Deck Title'}/>
+        <TextInput
+          style={styles.input}
+          placeholder={'Deck Title'}
+          onChangeText={this.handleInput}
+        />
         <TouchableOpacity
-          style={styles.button}>
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate(
+            'DeckView',
+            { deckName: this.state.deckName }
+          )}
+          >
           <Text style={styles.btnText}>Submit</Text>
         </TouchableOpacity>
       </View>
