@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet  } from 'react-native'
+import { addDeck } from '../actions'
 import { white, purple } from '../utils/colors'
 
-export default class NewDeck extends Component {
+class NewDeck extends Component {
   state = {
     deckName: ''
   }
@@ -11,9 +13,23 @@ export default class NewDeck extends Component {
     this.setState({deckName:text})
   }
 
+  onAddDeck = () => {
+    const { navigation, addDeck } = this.props
+    const { deckName } = this.state
+
+    if (deckName) {
+      addDeck(deckName)
+      navigation.navigate(
+        'DeckView',
+        {deckName}
+      )
+//      navigation.goBack()
+    }
+  }
+
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.question}>
           What is the title of your new deck?</Text>
         <TextInput
@@ -23,10 +39,7 @@ export default class NewDeck extends Component {
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate(
-            'DeckView',
-            { deckName: this.state.deckName }
-          )}
+          onPress={() => this.onAddDeck()}
           >
           <Text style={styles.btnText}>Submit</Text>
         </TouchableOpacity>
@@ -38,8 +51,8 @@ export default class NewDeck extends Component {
 const styles=StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    //alignItems: 'center',
+    //justifyContent: 'center',
   },
   question: {
     fontSize: 30,
@@ -76,3 +89,5 @@ const styles=StyleSheet.create({
     alignItems: 'center',
   }
 })
+
+export default connect(null, {addDeck})(NewDeck)
