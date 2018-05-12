@@ -5,20 +5,29 @@ import {white, black, gray} from "../utils/colors";
 
 class DeckView extends Component {
   render() {
-    const { deckName } = this.props
+    const { deck, deckName } = this.props
 
-    alert(JSON.stringify(this.props))
+    alert(JSON.stringify(deck, null, 2))
     return (
       <View style={styles.container}>
-        <Text style={styles.nameText}>{deckName}</Text>
-        <Text style={styles.countText}>? cards</Text>
+        <Text style={styles.nameText}>{deck.title}</Text>
+        <Text style={styles.countText}>{deck.questions.length} {deck.questions.length === 1 ? 'card' : 'cards'}</Text>
         <TouchableOpacity
           style={styles.addButton}
+          onPress={() => this.props.navigation.navigate(
+            'NewCard',
+            { deckName: deckName }
+          )}
         >
           <Text style={[styles.btnText, { color: black}]}>Add Card</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.startButton}
+          onPress={() => this.props.navigation.navigate(
+            'Quiz',
+            { deckName: deckName }
+          )}
         >
           <Text style={[styles.btnText, { color: white}]}>Start Quiz</Text>
         </TouchableOpacity>
@@ -28,8 +37,9 @@ class DeckView extends Component {
 }
 function mapStateToProps (state, {navigation}) {
   const { deckName } = navigation.state.params
-
+  const deck = state[deckName]
   return {
+    deck,
     deckName
   }
 }
