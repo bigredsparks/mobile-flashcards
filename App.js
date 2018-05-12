@@ -9,7 +9,10 @@ import {white, purple} from './utils/colors'
 import Decks from './components/Decks'
 import NewDeck from './components/NewDeck'
 import DeckView from './components/DeckView'
+import NewCard from './components/NewCard'
+import Quiz from './components/Quiz'
 
+// turn off yellow box warnings
 console.disableYellowBox = true
 
 function FlashcardStatusBar({backgroundColor, ...props}) {
@@ -51,7 +54,26 @@ const MainNavigator = StackNavigator({
         backgroundColor: purple,
       }
     }
+  },
+  NewCard: {
+    screen: NewCard,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
   }
+
 })
 
 
