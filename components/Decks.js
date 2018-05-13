@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { AppLoading } from 'expo'
-import {purple, white, black} from "../utils/colors";
-
-
-// {/*<Text>{JSON.stringify(decks, null, 2)}</Text>*/}
-// {/*<Text>{JSON.stringify(decks[key], null, 2)}</Text>*/}
-// {/*<Text>{Object.keys(decks).map(key => JSON.stringify(decks[key], null, 2))}</Text>*/}
+import {purple, white, black, gray} from "../utils/colors";
+import { deleteAllDecks, getDecks } from '../utils/api'
+import * as actions from '../actions'
 
 class Decks extends Component {
   state = {
@@ -15,14 +12,19 @@ class Decks extends Component {
   }
 
   componentDidMount() {
-    this.setState(
-      {
-        ready: true,
+    //deleteAllDecks().then(
+      getDecks().then(decks => {
+        this.props.initializeDecks(decks)
       })
+        .then(this.setState(
+          {
+            ready: true,
+          }
+      ))
   }
 
   render() {
-    const { navigation, decks } = this.props
+    const { decks } = this.props
     const { ready } = this.state
 
     if (!ready) {
@@ -32,63 +34,30 @@ class Decks extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          {Object.keys(decks).map(key => {
-            const deck = decks[key]
-            return (
-              <TouchableOpacity
-                key={key}
-                style={styles.deck}
-                onPress={() => this.props.navigation.navigate(
-                  'DeckView',
-                  { deckName: key }
-                )}
-              >
-                <View>
-                  <Text>{deck.title}</Text>
-                  <Text>{deck.questions.length} {deck.questions.length === 1 ? 'card' : 'cards'}</Text>
-                </View>
-              </TouchableOpacity>
-            )
-          })}
+          {decks && Object.keys(decks).length > 0
+            ? (Object.keys(decks).map(key => {
+              const deck = decks[key]
+              return (
+                <TouchableOpacity
+                  key={key}
+                  style={styles.deck}
+                  onPress={() => this.props.navigation.navigate(
+                    'DeckView',
+                    { deckName: key }
+                  )}
+                >
+                  <View>
+                    <Text style={styles.nameText}>{deck.title}</Text>
+                    <Text style={styles.countText}>{deck.questions.length} {deck.questions.length === 1 ? 'card' : 'cards'}</Text>
+                  </View>
+                </TouchableOpacity>
+                )}))
+            : (<Text>No Cards</Text>)
+          }
         </ScrollView>
       </View>
     )
 
-    // return (
-    //   <View style={styles.container}>
-    //     <ScrollView>
-    //
-//           <TouchableOpacity style={styles.deck}>
-    //         <Text>Deck 1</Text>
-    //         <Text>5</Text>
-    //       </TouchableOpacity>
-    //       <TouchableOpacity style={styles.deck}>
-    //         <Text>Deck 2</Text>
-    //         <Text>4</Text>
-    //       </TouchableOpacity>
-    //       <TouchableOpacity style={styles.deck}>
-    //         <Text>Deck 3</Text>
-    //         <Text>3</Text>
-    //       </TouchableOpacity>
-    //       <TouchableOpacity style={styles.deck}>
-    //         <Text>Deck 4</Text>
-    //         <Text>3</Text>
-    //       </TouchableOpacity>
-    //       <TouchableOpacity style={styles.deck}>
-    //         <Text>Deck 5</Text>
-    //         <Text>3</Text>
-    //       </TouchableOpacity>
-    //       <TouchableOpacity style={styles.deck}>
-    //         <Text>Deck 6</Text>
-    //         <Text>3</Text>
-    //       </TouchableOpacity>
-    //       <TouchableOpacity style={styles.deck}>
-    //         <Text>Deck 7</Text>
-    //         <Text>3</Text>
-    //       </TouchableOpacity>
-    //     </ScrollView>
-    //   </View>
-    // )
   }
 }
 
@@ -100,12 +69,25 @@ const styles=StyleSheet.create({
   },
   deck : {
     borderColor: black,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 4,
     padding: 40,
     alignItems: 'center',
     justifyContent: 'center',
-  }
+    width: 250,
+  },
+  nameText: {
+    fontSize: 30,
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+  countText: {
+    fontSize: 20,
+    color: gray,
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+
   // question: {
   //   fontSize: 30,
   //   fontWeight: 'bold',
@@ -143,10 +125,15 @@ const styles=StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-  const { decks } = state
   return {
     decks : state
   }
 }
 
-export default connect(mapStateToProps, undefined)(Decks)
+function mapDispatchToProps(dispatch) {
+  return {
+    initializeDecks: (data) => dispatch(actions.initializeDecks(data)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Decks)
