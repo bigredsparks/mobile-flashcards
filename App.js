@@ -27,13 +27,21 @@ const Tabs = TabNavigator({
   Decks: {
     screen: Decks,
     navigationOptions: {
-      tabBarLabel: 'Decks'
+      tabBarLabel: 'Decks',
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
     }
   },
   NewDeck: {
     screen: NewDeck,
     navigationOptions: {
-      tabBarLabel: 'New Deck'
+      tabBarLabel: 'New Deck',
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
     }
   }
 }, {
@@ -58,6 +66,8 @@ const MainNavigator = StackNavigator({
   NewCard: {
     screen: NewCard,
     navigationOptions: {
+      title: 'Add Card',
+      tabBarLabel: 'Add Card',
       headerTintColor: white,
       headerStyle: {
         backgroundColor: purple,
@@ -67,6 +77,8 @@ const MainNavigator = StackNavigator({
   Quiz: {
     screen: Quiz,
     navigationOptions: {
+      title: 'Quiz',
+      tabBarLabel: 'Quiz',
       headerTintColor: white,
       headerStyle: {
         backgroundColor: purple,
