@@ -7,7 +7,6 @@ class DeckView extends Component {
   render() {
     const { deck, deckName } = this.props
 
-    alert(JSON.stringify(deck, null, 2))
     return (
       <View style={styles.container}>
         <Text style={styles.nameText}>{deck.title}</Text>
@@ -84,7 +83,6 @@ const styles=StyleSheet.create({
 
   nameText: {
     fontSize: 40,
-//    fontWeight: 'bold',
     alignItems: 'center',
     marginBottom: 30,
   },
