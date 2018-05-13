@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet  } from 'react-native'
-import { addDeck } from '../actions'
 import { white, purple } from '../utils/colors'
+import * as actions from "../actions"
 
 class NewDeck extends Component {
   state = {
@@ -23,7 +23,6 @@ class NewDeck extends Component {
         'DeckView',
         {deckName}
       )
-//      navigation.goBack()
     }
   }
 
@@ -90,4 +89,10 @@ const styles=StyleSheet.create({
   }
 })
 
-export default connect(null, {addDeck})(NewDeck)
+function mapDispatchToProps(dispatch) {
+  return {
+    addDeck: (data) => dispatch(actions.addDeck(data)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NewDeck)
