@@ -19,6 +19,7 @@ class NewDeck extends Component {
 
     if (deckName) {
       addDeck(deckName)
+      this.setState({deckName:''})
       navigation.navigate(
         'DeckView',
         {deckName}
@@ -35,6 +36,7 @@ class NewDeck extends Component {
           style={styles.input}
           placeholder={'Deck Title'}
           onChangeText={this.handleInput}
+          value={this.state.deckName}
         />
         <TouchableOpacity
           style={styles.button}
