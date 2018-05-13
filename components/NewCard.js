@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView  } from 'react-native'
 import { white, purple } from '../utils/colors'
-import { addCard } from '../actions'
+import * as actions from "../actions"
 
 class NewCard extends Component {
   state = {
@@ -19,8 +19,6 @@ class NewCard extends Component {
   }
 
   onAddCard = () => {
-//    alert(JSON.stringify(this.state, null, 2))
-    alert(JSON.stringify(this.props, null, 2))
     const { question, answer } = this.state
     const { navigation, addCard } = this.props
 
@@ -58,7 +56,6 @@ const styles=StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   question: {
     fontSize: 30,
@@ -95,4 +92,10 @@ const styles=StyleSheet.create({
   }
 })
 
-export default connect(null, {addCard})(NewCard)
+function mapDispatchToProps(dispatch) {
+  return {
+    addCard: (data) => dispatch(actions.addCard(data)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NewCard)
