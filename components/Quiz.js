@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import {white, purple, black, red, blue} from '../utils/colors'
+import {connect} from "react-redux";
 
-export default class Quiz extends Component {
+class Quiz extends Component {
   state = {
     cardIndex : 0,
     showAnswer : false,
@@ -27,9 +28,8 @@ export default class Quiz extends Component {
   }
 
   onShowAnswer = () => {
-    const { cardIndex, showAnswer } = this.state
     this.setState({
-      showAnswer : !showAnswer
+      showAnswer : !this.state.showAnswer
     })
   }
 
@@ -39,12 +39,24 @@ export default class Quiz extends Component {
       showAnswer : false,
       correctCount: 0,
     })
-
   }
 
   render() {
+    const { navigation, decks } = this.props
+    const { deckName } = navigation.state.params
     const { cardIndex, showAnswer, correctCount } = this.state
-    const cardCount = 3
+    const questions = decks[deckName].questions
+    const cardCount = questions.length
+
+    if (cardCount === 0) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.scoreTitleText}>
+            No Cards in Deck
+          </Text>
+        </View>
+      )
+    }
 
     if (cardIndex >= cardCount) {
       const score = 100 * correctCount / cardCount
@@ -71,6 +83,8 @@ export default class Quiz extends Component {
       )
     }
 
+    const { answer, question } = questions[cardIndex]
+
     return (
       <View style={styles.container}>
         <Text
@@ -79,7 +93,7 @@ export default class Quiz extends Component {
           Question {cardIndex + 1} of {cardCount}
         </Text>
         <Text style={styles.question}>
-          {showAnswer ? 'Yes' : 'Does React Native work with Android'}
+          {showAnswer ? answer : question}
         </Text>
 
         <TouchableOpacity
@@ -114,39 +128,7 @@ const styles=StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    //justifyContent: 'center',
   },
-  question: {
-    fontSize: 30,
-    //fontWeight: 'bold',
-    marginTop: 20,
-    marginLeft: 60,
-    marginRight: 60,
-    textAlign: 'center',
-  },
-  input: {
-    backgroundColor: white,
-    borderColor: purple,
-    borderWidth: 1,
-    borderRadius: 4,
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    marginBottom: 20,
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingBottom: 5,
-  },
-  button: {
-    marginLeft: 90,
-    marginRight: 90,
-    backgroundColor: purple,
-    padding: 10,
-    borderRadius: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
   correctButton: {
     marginTop: 5,
     marginBottom: 5,
@@ -154,8 +136,6 @@ const styles=StyleSheet.create({
     backgroundColor: 'green',
     borderColor: 'green',
     borderWidth: 2,
-    // paddingLeft: 10,
-    // paddingRight: 10,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 4,
@@ -170,8 +150,6 @@ const styles=StyleSheet.create({
     backgroundColor: red,
     borderColor: red,
     borderWidth: 2,
-    // paddingLeft: 50,
-    // paddingRight: 50,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 4,
@@ -186,15 +164,12 @@ const styles=StyleSheet.create({
     backgroundColor: blue,
     borderColor: blue,
     borderWidth: 2,
-    // paddingLeft: 10,
-    // paddingRight: 10,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
   },
-
 
   btnText: {
     color: white,
@@ -223,9 +198,13 @@ const styles=StyleSheet.create({
     marginTop: 10,
     marginBottom: 50,
   },
-
-  progress: {
-    fontSize: 15,
-    margin: 5,
-  }
 })
+
+function mapStateToProps(state) {
+  return {
+    decks : state
+  }
+}
+
+export default connect(mapStateToProps, undefined)(Quiz)
+
