@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated } from 'react-native'
 import { AppLoading } from 'expo'
 import {purple, white, black, gray} from "../utils/colors";
 import { deleteAllDecks, getDecks } from '../utils/api'
@@ -8,7 +8,8 @@ import * as actions from '../actions'
 
 class Decks extends Component {
   state = {
-    ready: false
+    ready: false,
+    bounceValue: new Animated.Value(1)
   }
 
   componentDidMount() {
@@ -25,16 +26,30 @@ class Decks extends Component {
     //)
   }
 
+  onGotoDeck = (key) => {
+    const { bounceValue } = this.state
+
+    Animated.sequence([
+      Animated.timing(bounceValue, { duration: 200, toValue: .5}),
+      Animated.spring(bounceValue, { toValue: 1, friction: 4})
+    ]).start()
+
+    this.props.navigation.navigate(
+      'DeckView',
+      { deckName: key }
+    )
+  }
+
   render() {
     const { decks } = this.props
-    const { ready } = this.state
+    const { ready, bounceValue } = this.state
 
     if (!ready) {
       return <AppLoading />
     }
 
     return (
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, {transform: [{scale: bounceValue}]}]}>
         <ScrollView>
           {decks && Object.keys(decks).length > 0
             ? (Object.keys(decks).map(key => {
@@ -43,10 +58,7 @@ class Decks extends Component {
                 <TouchableOpacity
                   key={key}
                   style={styles.deck}
-                  onPress={() => this.props.navigation.navigate(
-                    'DeckView',
-                    { deckName: key }
-                  )}
+                  onPress={() => this.onGotoDeck(key)}
                 >
                   <View>
                     <Text style={styles.nameText}>{deck.title}</Text>
@@ -57,7 +69,7 @@ class Decks extends Component {
             : (<Text>No Cards</Text>)
           }
         </ScrollView>
-      </View>
+      </Animated.View>
     )
 
   }
@@ -66,6 +78,7 @@ class Decks extends Component {
 const styles=StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -73,7 +86,9 @@ const styles=StyleSheet.create({
     borderColor: black,
     borderWidth: 2,
     borderRadius: 4,
+    backgroundColor: white,
     padding: 40,
+    marginBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',
     width: 250,
