@@ -89,41 +89,6 @@ const styles=StyleSheet.create({
     marginBottom: 5,
     textAlign: 'center',
   },
-
-  // question: {
-  //   fontSize: 30,
-  //   fontWeight: 'bold',
-  //   marginTop: 20,
-  //   marginLeft: 60,
-  //   marginRight: 60,
-  //   textAlign: 'center',
-  // },
-  // input: {
-  //   backgroundColor: white,
-  //   borderColor: purple,
-  //   borderWidth: 1,
-  //   borderRadius: 4,
-  //   marginLeft: 20,
-  //   marginRight: 20,
-  //   marginTop: 20,
-  //   marginBottom: 20,
-  //   paddingLeft: 5,
-  //   paddingRight: 5,
-  //   paddingBottom: 5,
-  // },
-  // button: {
-  //   marginLeft: 90,
-  //   marginRight: 90,
-  //   backgroundColor: purple,
-  //   padding: 10,
-  //   borderRadius: 4,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // btnText: {
-  //   color: white,
-  //   alignItems: 'center',
-  // }
 })
 
 function mapStateToProps(state) {
@@ -134,7 +99,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    initializeDecks: (data) => dispatch(actions.initializeDecks(data)),
+    initializeDecks: (decks) => dispatch(actions.initializeDecks(decks)),
   }
 }
 
