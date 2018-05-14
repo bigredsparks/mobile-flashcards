@@ -94,7 +94,7 @@ const styles=StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    addCard: (data) => dispatch(actions.addCard(data)),
+    addCard: (deckName, card) => dispatch(actions.addCard(deckName, card)),
   }
 }
 
