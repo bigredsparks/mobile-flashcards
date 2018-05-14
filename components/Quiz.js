@@ -79,6 +79,15 @@ class Quiz extends Component {
             <Text style={[styles.btnText, { color: white}]}>Restart</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => this.props.navigation.navigate(
+              'Decks',
+            )}
+          >
+            <Text style={[styles.btnText, { color: white}]}>Back to Decks</Text>
+          </TouchableOpacity>
+
         </View>
       )
     }
@@ -129,6 +138,14 @@ const styles=StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  question: {
+    fontSize: 30,
+    //fontWeight: 'bold',
+    marginTop: 20,
+    marginLeft: 60,
+    marginRight: 60,
+    textAlign: 'center',
+  },
   correctButton: {
     marginTop: 5,
     marginBottom: 5,
@@ -171,6 +188,20 @@ const styles=StyleSheet.create({
     justifyContent: 'center',
   },
 
+  backButton: {
+    marginTop: 5,
+    marginBottom: 5,
+    width: 200,
+    backgroundColor: black,
+    borderColor: black,
+    borderWidth: 2,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   btnText: {
     color: white,
     alignItems: 'center',
@@ -197,6 +228,12 @@ const styles=StyleSheet.create({
   answerBtn: {
     marginTop: 10,
     marginBottom: 50,
+  },
+
+  progress: {
+    fontSize: 20,
+    //fontWeight: 'bold',
+    margin: 5,
   },
 })
 
