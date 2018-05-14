@@ -12,6 +12,7 @@ class Decks extends Component {
   }
 
   componentDidMount() {
+    // uncomment to delete all decks
     //deleteAllDecks().then(
       getDecks().then(decks => {
         this.props.initializeDecks(decks)
@@ -21,6 +22,7 @@ class Decks extends Component {
             ready: true,
           }
       ))
+    //)
   }
 
   render() {
