@@ -10,29 +10,37 @@ class Quiz extends Component {
     correctCount: 0,
   }
 
+  // handler for correct answer
   onCorrect = () => {
     const { cardIndex, correctCount } = this.state
 
     this.setState({
       cardIndex : cardIndex + 1,
-      correctCount : correctCount + 1
+      correctCount : correctCount + 1,
+      // make sure to switch back to showing question
+      showAnswer : false,
     })
   }
 
+  // handler for incorrect answer
   onIncorrect = () => {
     const { cardIndex } = this.state
 
     this.setState({
-      cardIndex : cardIndex + 1
+      cardIndex : cardIndex + 1,
+      // make sure to switch back to showing question
+      showAnswer : false,
     })
   }
 
+  // handler for toggling between showing question and answer
   onShowAnswer = () => {
     this.setState({
       showAnswer : !this.state.showAnswer
     })
   }
 
+  // handler for restarting quiz from beginning
   onRestart = () => {
     this.setState({
       cardIndex: 0,
