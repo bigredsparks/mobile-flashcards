@@ -1,11 +1,13 @@
 import React from 'react'
-import {StyleSheet, View, StatusBar, Platform} from 'react-native'
+import {View, StatusBar} from 'react-native'
 import {TabNavigator, StackNavigator} from 'react-navigation'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import {Constants} from 'expo'
 import {white, purple} from './utils/colors'
+import { setLocalNotification } from './utils/helpers'
+
 import Decks from './components/Decks'
 import NewDeck from './components/NewDeck'
 import DeckView from './components/DeckView'
@@ -57,6 +59,7 @@ const MainNavigator = StackNavigator({
   DeckView: {
     screen: DeckView,
     navigationOptions: {
+      title: 'Deck',
       headerTintColor: white,
       headerStyle: {
         backgroundColor: purple,
@@ -67,7 +70,6 @@ const MainNavigator = StackNavigator({
     screen: NewCard,
     navigationOptions: {
       title: 'Add Card',
-      tabBarLabel: 'Add Card',
       headerTintColor: white,
       headerStyle: {
         backgroundColor: purple,
@@ -78,18 +80,20 @@ const MainNavigator = StackNavigator({
     screen: Quiz,
     navigationOptions: {
       title: 'Quiz',
-      tabBarLabel: 'Quiz',
       headerTintColor: white,
       headerStyle: {
         backgroundColor: purple,
       }
     }
   }
-
 })
 
-
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer)}>
@@ -101,12 +105,3 @@ export default class App extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})

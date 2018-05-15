@@ -1,9 +1,24 @@
 import React, { Component } from 'react'
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import { connect } from 'react-redux'
-import {white, black, gray} from "../utils/colors";
+import {white, black, gray} from '../utils/colors'
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
 class DeckView extends Component {
+
+  // handler for starting quiz
+  onQuiz = (deckName) => {
+    // since quiz has started clear notification for today and set for tomorrow
+    clearLocalNotification()
+      .then(setLocalNotification)
+
+    // navigate to quiz
+    this.props.navigation.navigate(
+      'Quiz',
+      { deckName: deckName }
+    )
+  }
+
   render() {
     const { deck, deckName } = this.props
 
@@ -11,6 +26,7 @@ class DeckView extends Component {
       <View style={styles.container}>
         <Text style={styles.nameText}>{deck.title}</Text>
         <Text style={styles.countText}>{deck.questions.length} {deck.questions.length === 1 ? 'card' : 'cards'}</Text>
+
         <TouchableOpacity
           style={styles.addButton}
           onPress={() => this.props.navigation.navigate(
@@ -23,13 +39,11 @@ class DeckView extends Component {
 
         <TouchableOpacity
           style={styles.startButton}
-          onPress={() => this.props.navigation.navigate(
-            'Quiz',
-            { deckName: deckName }
-          )}
+          onPress={() => this.onQuiz(deckName)}
         >
           <Text style={[styles.btnText, { color: white}]}>Start Quiz</Text>
         </TouchableOpacity>
+
       </View>
     )
   }
@@ -42,7 +56,6 @@ function mapStateToProps (state, {navigation}) {
     deckName
   }
 }
-
 
 export default connect(mapStateToProps)(DeckView)
 
@@ -93,5 +106,6 @@ const styles=StyleSheet.create({
   },
   btnText: {
     alignItems: 'center',
+    fontSize: 15,
   }
 })

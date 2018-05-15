@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet  } from 'react-native'
 import { white, purple } from '../utils/colors'
-import * as actions from "../actions"
+import * as actions from '../actions'
 
 class NewDeck extends Component {
   state = {
@@ -52,8 +52,7 @@ class NewDeck extends Component {
 const styles=StyleSheet.create({
   container: {
     flex: 1,
-    //alignItems: 'center',
-    //justifyContent: 'center',
+    alignItems: 'center',
   },
   question: {
     fontSize: 30,
@@ -68,17 +67,15 @@ const styles=StyleSheet.create({
     borderColor: purple,
     borderWidth: 1,
     borderRadius: 4,
-    marginLeft: 20,
-    marginRight: 20,
     marginTop: 20,
     marginBottom: 20,
     paddingLeft: 5,
     paddingRight: 5,
     paddingBottom: 5,
+    width: 250
   },
   button: {
-    marginLeft: 90,
-    marginRight: 90,
+    width: 200,
     backgroundColor: purple,
     padding: 10,
     borderRadius: 4,

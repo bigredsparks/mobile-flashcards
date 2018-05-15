@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView  } from 'react-native'
+import { Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView  } from 'react-native'
 import { white, purple } from '../utils/colors'
-import * as actions from "../actions"
+import * as actions from '../actions'
 
 class NewCard extends Component {
   state = {
@@ -10,19 +10,24 @@ class NewCard extends Component {
     answer: '',
   }
 
+  // handler for question input
   handleQuestionInput = (text) => {
     this.setState({question:text})
   }
 
+  // handler for answer input
   handleAnswerInput = (text) => {
     this.setState({answer:text})
   }
 
+  // handler for adding new card
   onAddCard = () => {
     const { question, answer } = this.state
     const { navigation, addCard } = this.props
 
+    // were both a question and answer provided?
     if (question && answer) {
+      // yes, call add card action and navigate back
       addCard(navigation.state.params.deckName, { question, answer })
       navigation.goBack()
     }
@@ -56,14 +61,6 @@ const styles=StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  question: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginTop: 20,
-    marginLeft: 60,
-    marginRight: 60,
-    textAlign: 'center',
   },
   input: {
     backgroundColor: white,

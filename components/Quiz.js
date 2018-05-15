@@ -50,7 +50,7 @@ class Quiz extends Component {
 
     if (cardCount === 0) {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, {justifyContent: 'center'}]}>
           <Text style={styles.scoreTitleText}>
             No Cards in Deck
           </Text>
@@ -61,7 +61,7 @@ class Quiz extends Component {
     if (cardIndex >= cardCount) {
       const score = 100 * correctCount / cardCount
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, {justifyContent: 'center'}]}>
           <Text style={styles.scoreTitleText}>
             Score
           </Text>
@@ -95,7 +95,7 @@ class Quiz extends Component {
     const { answer, question } = questions[cardIndex]
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {justifyContent: 'center'}]}>
         <Text
           style={styles.progress}
         >
@@ -106,7 +106,7 @@ class Quiz extends Component {
         </Text>
 
         <TouchableOpacity
-          style={styles.answerBtn}
+          style={styles.answerButton}
           onPress={() => this.onShowAnswer()}
         >
           <Text style={styles.answerBtnText}>
@@ -138,14 +138,15 @@ const styles=StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+
   question: {
     fontSize: 30,
-    //fontWeight: 'bold',
     marginTop: 20,
     marginLeft: 60,
     marginRight: 60,
     textAlign: 'center',
   },
+
   correctButton: {
     marginTop: 5,
     marginBottom: 5,
@@ -202,6 +203,11 @@ const styles=StyleSheet.create({
     justifyContent: 'center',
   },
 
+  answerButton: {
+    marginTop: 10,
+    marginBottom: 50,
+  },
+
   btnText: {
     color: white,
     alignItems: 'center',
@@ -225,14 +231,8 @@ const styles=StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  answerBtn: {
-    marginTop: 10,
-    marginBottom: 50,
-  },
-
   progress: {
     fontSize: 20,
-    //fontWeight: 'bold',
     margin: 5,
   },
 })

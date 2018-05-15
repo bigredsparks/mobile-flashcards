@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated } from 'react-native'
 import { AppLoading } from 'expo'
-import {purple, white, black, gray} from "../utils/colors";
+import { white, black, gray} from '../utils/colors'
 import { deleteAllDecks, getDecks } from '../utils/api'
 import * as actions from '../actions'
 
@@ -26,14 +26,17 @@ class Decks extends Component {
     //)
   }
 
+  // handler for when deck is selected
   onGotoDeck = (key) => {
     const { bounceValue } = this.state
 
+    // start animation sequence to shrink deck list
     Animated.sequence([
       Animated.timing(bounceValue, { duration: 200, toValue: .5}),
       Animated.spring(bounceValue, { toValue: 1, friction: 4})
     ]).start()
 
+    // navigate to selected deck
     this.props.navigation.navigate(
       'DeckView',
       { deckName: key }
@@ -108,7 +111,7 @@ const styles=StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    decks : state
+    decks : state,
   }
 }
 
